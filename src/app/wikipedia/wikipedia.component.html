@@ -1,0 +1,29 @@
+<div class="wikipedia-container">
+    <div class="articles-filters">
+        <mat-form-field appearance="legacy">
+            <mat-label>Item: </mat-label>
+            <input matInput [formControl]="itemFilterFormControl">
+        </mat-form-field>
+        <mat-form-field appearance="legacy">
+            <mat-label>User: </mat-label>
+            <input matInput [formControl]="userFilterFormControl">
+        </mat-form-field>
+    </div>
+    <div class="articles-list">
+        <div *ngIf="filteredArticles$ | async as filteredArticles">
+            <div *ngIf="filteredArticles.length==0">Still no records.</div>
+            <ng-container *ngFor="let article of filteredArticles">
+                <mat-card class="article">
+                    <mat-card-header>
+                        <mat-card-title>Item: {{article.item}}</mat-card-title>
+                        <mat-card-subtitle><a mat-button href={{article.link}}>Article</a></mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>Event: {{article.event}}</p>
+                        <p>User: {{article.user}}</p>
+                    </mat-card-content>
+                </mat-card>
+            </ng-container>
+        </div>
+    </div>
+</div>
