@@ -12,8 +12,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WikipediaEffects } from './state/wikipedia/wikipedia.effects';
 import { WikipediaComponent } from './wikipedia/wikipedia.component';
 
-import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
@@ -36,8 +34,6 @@ import {MatButtonModule} from '@angular/material/button';
     EffectsModule.forRoot([]),
     EffectsModule.forFeature([WikipediaEffects]),
     BrowserAnimationsModule,
-    MatIconModule,
-    MatSidenavModule,
     MatListModule,
     MatToolbarModule,
     MatCardModule,

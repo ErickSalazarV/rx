@@ -1,5 +1,23 @@
 .wikipedia-container {
-    padding: 2% 5%;
+  padding: 2% 5%;
 
-    
+    .articles-filters {
+      .mat-form-field {
+        margin-left: 20px;
+      }
+    }
+
+  .articles-list {
+    height: 70vh;
+    overflow: hidden scroll;
+
+    .article {
+      margin-top: 10px;
+      margin-bottom: 10px;
+
+      .mat-card-content {
+        margin-left: 30px;
+      }
+    }
+  }
 }

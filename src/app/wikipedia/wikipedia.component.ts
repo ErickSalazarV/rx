@@ -13,14 +13,14 @@ import * as WikipediaSelectors from 'src/app/state/wikipedia/wikipedia.selector'
   templateUrl: './wikipedia.component.html',
   styleUrls: ['./wikipedia.component.scss']
 })
-export class WikipediaComponent implements OnInit, OnDestroy {
-
-  private componentDestroy$: Subject<boolean> = new Subject();
+export class WikipediaComponent implements OnInit {
 
   public articles$: Observable<Article[]> = this.store.pipe(
     select(WikipediaSelectors.selectAllArticles),
     filter(state => !!state)
   );
+
+  private isRemoveReadyToDispatch: boolean = false;
 
   userFilterFormControl = new FormControl('');
   itemFilterFormControl = new FormControl('');
@@ -30,35 +30,29 @@ export class WikipediaComponent implements OnInit, OnDestroy {
     this.userFilterFormControl.valueChanges.pipe(startWith('')),
     this.itemFilterFormControl.valueChanges.pipe(startWith(''))
   ]).pipe(
-    tap(console.log),
     map(
       ([articles, userVal, itemVal]) => {
+        this.isRemoveReadyToDispatch = articles.length > 100;
         if (userVal !== '' || itemVal !== '') {
           return articles.filter((article: Article) => {
             return article.user.toLocaleLowerCase().includes(userVal!.toLocaleLowerCase()) &&
               article.item.toLocaleLowerCase().includes(itemVal!.toLocaleLowerCase());
-          });
+          }).reverse();
         }
         else {
-          return articles;
+          return [...articles].reverse();
         }
       }
     ),
-    tap(x => {
-      if (x.length > 15) {
+    tap(() => {
+      if (this.isRemoveReadyToDispatch) {
         this.store.dispatch(WikipediaActions.removeFirstArticle());
       }
-    }),
-    takeUntil(this.componentDestroy$)
+    })
   );
 
   ngOnInit() {
     this.store.dispatch(WikipediaActions.listArticles());
-  }
-
-  ngOnDestroy() {
-    this.componentDestroy$.next(true);
-    this.componentDestroy$.unsubscribe();
   }
 
   constructor(
